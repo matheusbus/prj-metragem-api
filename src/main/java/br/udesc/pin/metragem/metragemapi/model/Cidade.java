@@ -1,8 +1,8 @@
 package br.udesc.pin.metragem.metragemapi.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-
-import org.hibernate.mapping.List;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,12 +14,14 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tbcidade")
-public class Cidade {
+public class Cidade implements Serializable{
     
+    private static final long SerialVersionUID = 1L; 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cidcodigo")
-    private long codigo;
+    private Long codigo;
 
     @Column(name = "cidnome")
     private String nome;
@@ -33,8 +35,16 @@ public class Cidade {
     @OneToMany(mappedBy = "cidade")
     private java.util.List<Metragem> metragens = new ArrayList<>();
 
-    private Cidade(){
+    public Cidade(){
 
+    }
+
+    public Cidade(Long codigo, String nome, String uf, long codIbge) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.uf = uf;
+        this.codIbge = codIbge;
+        this.metragens = new ArrayList<>();
     }
 
     public long getCodigoIbge() {

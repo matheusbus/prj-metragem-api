@@ -1,15 +1,11 @@
 package br.udesc.pin.metragem.metragemapi.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
-import org.hibernate.annotations.ManyToAny;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
-import io.micrometer.core.annotation.Counted;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,11 +30,11 @@ public class Metragem implements Serializable{
 
     @Temporal(TemporalType.DATE)
     @Column(name = "metdata")
-    private Date data;
+    private LocalDate data;
 
     @Temporal(TemporalType.TIME)
     @Column(name = "methora")
-    private Date hora;
+    private LocalTime hora;
 
     @Column(name = "metnivel")
     private float nivel;
@@ -60,15 +56,27 @@ public class Metragem implements Serializable{
 
     }
 
+    public Metragem(long id, LocalDate data, LocalTime hora, float nivel, float diferenca, float indicePluviometrico,
+            Integer clima, Cidade cidade) {
+        this.id = id;
+        this.data = data;
+        this.hora = hora;
+        this.nivel = nivel;
+        this.diferenca = diferenca;
+        this.indicePluviometrico = indicePluviometrico;
+        this.clima = clima;
+        this.cidade = cidade;
+    }
+
     public long getId(){
         return this.id;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public Date getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
@@ -92,11 +100,11 @@ public class Metragem implements Serializable{
         this.id = id;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
