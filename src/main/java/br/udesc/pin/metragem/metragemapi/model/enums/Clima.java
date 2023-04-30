@@ -25,5 +25,4 @@ public enum Clima {
         throw new IllegalArgumentException("Código do Clima inválido.");
     }
 
-
 }
