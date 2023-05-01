@@ -18,6 +18,7 @@ import br.udesc.pin.metragem.metragemapi.model.Metragem;
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 import br.udesc.pin.metragem.metragemapi.repositories.CidadeRepository;
 import br.udesc.pin.metragem.metragemapi.repositories.MetragemRepository;
+import br.udesc.pin.metragem.metragemapi.services.CidadeService;
 import br.udesc.pin.metragem.metragemapi.services.MetragemService;
 
 @Configuration
@@ -26,6 +27,9 @@ public class TestConfig implements CommandLineRunner{
     
     @Autowired
     private CidadeRepository cidadeRepository;
+
+    @Autowired
+    private CidadeService cidadeService;
 
     @Autowired
     private MetragemRepository metragemRepository;
@@ -72,13 +76,17 @@ public class TestConfig implements CommandLineRunner{
             8.35f, 0.50f, Clima.CHUVOSO, riodosul);
         // metragemRioDoSul6.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul6.getNivel() - metragemRioDoSul5.getNivel())));
         
-        metragemRepository.saveAll(Arrays.asList(metragemRioDoSul1, metragemRioDoSul2, metragemRioDoSul3, metragemRioDoSul4, metragemRioDoSul5, metragemRioDoSul6));
+        metragemRepository.saveAll(Arrays.asList(metragemRioDoSul1, 
+                                                 metragemRioDoSul2, 
+                                                 metragemRioDoSul3, 
+                                                 metragemRioDoSul4, 
+                                                 metragemRioDoSul5, 
+                                                 metragemRioDoSul6));
    
-        for(int i = 0; i <= 10; i++){
-            Random rd = new Random();
-            int novo = rd.nextInt(1,4);
-            System.out.println(i + "° metragem ("+ Clima.valueOf(novo) +"): " + metragemService.calculaIndicePluviometrico(Clima.valueOf(novo)));
+        for(int i = 1; i <= 10; i++){
+            System.out.println(metragemService.gravarNovaLeitura(cidadeService.findByCodIbge(4214805)));
         }
+        
     }
 
 

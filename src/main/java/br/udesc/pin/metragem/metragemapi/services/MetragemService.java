@@ -1,5 +1,8 @@
 package br.udesc.pin.metragem.metragemapi.services;
 
+import java.sql.Array;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +14,9 @@ import br.udesc.pin.metragem.metragemapi.model.Cidade;
 import br.udesc.pin.metragem.metragemapi.model.Metragem;
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 import br.udesc.pin.metragem.metragemapi.repositories.MetragemRepository;
+import utils.GeradorClimatico;
+import utils.GeradorMetragem;
+import utils.GeradorPluviometrico;
 
 @Service
 public class MetragemService {
@@ -29,36 +35,27 @@ public class MetragemService {
         return metragemRepository.findById(id).get();
     }
 
-    public void novaLeitura(){
-        gerarLeitura(cidadeService.findByNomeAndUf("Rio do Sul", "SC"));
+    public Metragem save(Metragem metragem){
+        return metragemRepository.save(metragem);
     }
 
-    public void gerarLeitura(Cidade cidade){
+    public Metragem findLastMetragemByCidadeIBGE(long codIbge){
+        Cidade cidade = cidadeService.findByCodIbge(codIbge);
 
-    }
-
-    public void gerarMetragem(){
-
-    }
-
-    public void calculaProxMetragem(){
-
-    }
-
-    public float calculaIndicePluviometrico(Clima clima){
-        Random gerador = new Random();
-
-        if(clima.equals(Clima.BOM)){
-            return 0.50f;
-        } 
-        else if (clima.equals(Clima.NUBLADO)){
-            return gerador.nextFloat(1.00f);
-        }
-        else if (clima.equals(Clima.CHUVOSO)){
-            return gerador.nextFloat(5.00f);
+        if(cidade == null){
+            return null;
         } else {
-            return 100.00f;
-        }    
+            return metragemRepository.buscarMetragensPorCidade(cidade)
+            .stream()
+            .findFirst()
+            .get();
+        }
+         
+    }
+
+    public Metragem gravarNovaLeitura(Cidade cidade){
+        Metragem novaMetragem = GeradorMetragem.gerarMetragem(cidade, this.findLastMetragemByCidadeIBGE(4214805), null);
+        return this.save(novaMetragem);
     }
 
 }
