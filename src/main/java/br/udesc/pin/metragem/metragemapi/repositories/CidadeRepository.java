@@ -7,4 +7,8 @@ import br.udesc.pin.metragem.metragemapi.model.Cidade;
 
 public interface CidadeRepository extends JpaRepository<Cidade, Long>{
     
+    Cidade findByCodIbgeEquals(long codIbge);
+    
+    Cidade findByNomeAndUfAllIgnoringCase(String nome, String uf);
+
 }

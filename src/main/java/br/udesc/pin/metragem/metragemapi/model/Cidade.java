@@ -2,10 +2,10 @@ package br.udesc.pin.metragem.metragemapi.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +32,7 @@ public class Cidade implements Serializable{
     @Column(name = "cidibge")
     private long codIbge;
 
-    @OneToMany(mappedBy = "cidade")
+    @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
     private java.util.List<Metragem> metragens = new ArrayList<>();
 
     public Cidade(){
@@ -47,11 +47,15 @@ public class Cidade implements Serializable{
         this.metragens = new ArrayList<>();
     }
 
-    public long getCodigoIbge() {
+    public static long getSerialversionuid() {
+        return SerialVersionUID;
+    }
+
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigoIbge(long codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 
@@ -71,16 +75,29 @@ public class Cidade implements Serializable{
         this.uf = uf;
     }
 
+    public long getCodIbge() {
+        return codIbge;
+    }
+
+    public void setCodIbge(long codIbge) {
+        this.codIbge = codIbge;
+    }
+
+    public java.util.List<Metragem> getMetragens() {
+        return metragens;
+    }
+
     @Override
     public String toString() {
-        return "Cidade [codigo=" + codigo + ", nome=" + nome + ", uf=" + uf + ", codIbge=" + codIbge + "]";
+        return "Cidade [codigo=" + codigo + ", nome=" + nome + ", uf=" + uf + ", codIbge=" + codIbge + ", metragens="
+                + metragens + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (codigo ^ (codigo >>> 32));
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
         return result;
     }
 
@@ -93,10 +110,14 @@ public class Cidade implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         Cidade other = (Cidade) obj;
-        if (codigo != other.codigo)
+        if (codigo == null) {
+            if (other.codigo != null)
+                return false;
+        } else if (!codigo.equals(other.codigo))
             return false;
         return true;
     }
+
 
 
 

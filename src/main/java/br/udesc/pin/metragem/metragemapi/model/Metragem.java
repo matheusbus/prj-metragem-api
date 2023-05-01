@@ -3,7 +3,6 @@ package br.udesc.pin.metragem.metragemapi.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 import jakarta.persistence.Column;
@@ -56,15 +55,13 @@ public class Metragem implements Serializable{
 
     }
 
-    public Metragem(long id, LocalDate data, LocalTime hora, float nivel, float diferenca, float indicePluviometrico,
-            Integer clima, Cidade cidade) {
-        this.id = id;
+    public Metragem(LocalDate data, LocalTime hora, float nivel, float indicePluviometrico,
+            Clima clima, Cidade cidade) {
         this.data = data;
         this.hora = hora;
         this.nivel = nivel;
-        this.diferenca = diferenca;
         this.indicePluviometrico = indicePluviometrico;
-        this.clima = clima;
+        this.clima = clima.getCodigo();
         this.cidade = cidade;
     }
 
