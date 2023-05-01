@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +18,7 @@ import br.udesc.pin.metragem.metragemapi.model.Metragem;
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 import br.udesc.pin.metragem.metragemapi.repositories.CidadeRepository;
 import br.udesc.pin.metragem.metragemapi.repositories.MetragemRepository;
+import br.udesc.pin.metragem.metragemapi.services.MetragemService;
 
 @Configuration
 @Profile("test")
@@ -28,6 +29,9 @@ public class TestConfig implements CommandLineRunner{
 
     @Autowired
     private MetragemRepository metragemRepository;
+
+    @Autowired
+    private MetragemService metragemService;
 
     // Método que executará quando a aplicação iniciar com profile "test"
     @Override
@@ -69,6 +73,12 @@ public class TestConfig implements CommandLineRunner{
         // metragemRioDoSul6.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul6.getNivel() - metragemRioDoSul5.getNivel())));
         
         metragemRepository.saveAll(Arrays.asList(metragemRioDoSul1, metragemRioDoSul2, metragemRioDoSul3, metragemRioDoSul4, metragemRioDoSul5, metragemRioDoSul6));
+   
+        for(int i = 0; i <= 10; i++){
+            Random rd = new Random();
+            int novo = rd.nextInt(1,4);
+            System.out.println(i + "° metragem ("+ Clima.valueOf(novo) +"): " + metragemService.calculaIndicePluviometrico(Clima.valueOf(novo)));
+        }
     }
 
 
