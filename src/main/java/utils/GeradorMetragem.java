@@ -10,7 +10,7 @@ import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 
 public class GeradorMetragem {
    
-    public static Metragem gerarMetragem(Cidade cidade, Metragem ultimaMetragemRegCidade, List<Integer> ultimosCincoClimas){
+    public static Metragem gerarNovaMetragem(Cidade cidade, Metragem ultimaMetragemRegCidade, List<Integer> ultimosCincoClimas){
 
         Metragem ultimaMetragemCidade = ultimaMetragemRegCidade;
         Clima novoClima = GeradorClimatico.gerarNovoClima(ultimaMetragemCidade.getClima());

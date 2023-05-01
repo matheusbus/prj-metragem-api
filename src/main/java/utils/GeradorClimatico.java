@@ -9,16 +9,16 @@ public class GeradorClimatico {
     public static Clima gerarNovoClima(Clima climaAnterior){
 
         if(climaAnterior.equals(Clima.BOM)){
-            float[] tendencias = {0.60f, 0.30f, 0.10f};
+            float[] tendencias = {0.60f, 0.30f, 0.10f}; // ÚLT. CLIMA = BOM 
             return calculaNovoClima(tendencias);
 
         }
         else if(climaAnterior.equals(Clima.NUBLADO)){
-            float[] tendencias = {0.20f, 0.60f, 0.20f};
+            float[] tendencias = {0.20f, 0.60f, 0.20f}; // ÚLT. CLIMA = NUBLADO
             return calculaNovoClima(tendencias);
         }
-        else {
-            float[] tendencias = {0.15f, 0.30f, 0.55f};
+        else {  
+            float[] tendencias = {0.15f, 0.30f, 0.55f}; // ÚLT. CLIMA = CHUVOSO
             return calculaNovoClima(tendencias);
         }
 

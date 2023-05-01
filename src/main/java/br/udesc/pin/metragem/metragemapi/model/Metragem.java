@@ -19,8 +19,6 @@ import jakarta.persistence.TemporalType;
 @Entity
 @Table(name = "tbmetragem")
 public class Metragem implements Serializable{
-    
-    private static final long SerialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

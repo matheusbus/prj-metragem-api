@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import br.udesc.pin.metragem.metragemapi.model.Cidade;
 import br.udesc.pin.metragem.metragemapi.model.Metragem;
@@ -53,27 +54,27 @@ public class TestConfig implements CommandLineRunner{
         cidadeRepository.saveAll(Arrays.asList(riodosul, ibirama, atalanta, pousoredondo, taio));
 
         Metragem metragemRioDoSul1 = new Metragem(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))), 
-            8.14f, 0.1f, Clima.NUBLADO, riodosul);
+            8.14f, 0.1f, Clima.BOM, riodosul);
         // metragemRioDoSul1.setDiferenca(Float.parseFloat(df.format(0.00f)));
 
         Metragem metragemRioDoSul2 = new Metragem(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(1), 
-            8.21f, 0.12f, Clima.NUBLADO, riodosul);
+            8.21f, 0.00f, Clima.BOM, riodosul);
         // metragemRioDoSul2.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul2.getNivel() - metragemRioDoSul1.getNivel())));
 
         Metragem metragemRioDoSul3 = new Metragem(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(2), 
-            8.28f, 0.11f, Clima.NUBLADO, riodosul);
+            8.28f, 0.00f, Clima.BOM, riodosul);
         // metragemRioDoSul3.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul3.getNivel() - metragemRioDoSul2.getNivel())));
         
         Metragem metragemRioDoSul4 = new Metragem(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(3), 
-            8.31f, 0.1f, Clima.NUBLADO, riodosul);
+            8.31f, 0.00f, Clima.BOM, riodosul);
         // metragemRioDoSul4.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul4.getNivel() - metragemRioDoSul3.getNivel())));
 
         Metragem metragemRioDoSul5 = new Metragem(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(4), 
-            8.33f, 0.56f, Clima.CHUVOSO, riodosul);
+            8.33f, 0.00f, Clima.BOM, riodosul);
         // metragemRioDoSul5.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul5.getNivel() - metragemRioDoSul4.getNivel())));
         
         Metragem metragemRioDoSul6 = new Metragem(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(5), 
-            8.35f, 0.50f, Clima.CHUVOSO, riodosul);
+            8.35f, 0.00f, Clima.BOM, riodosul);
         // metragemRioDoSul6.setDiferenca(Float.parseFloat(df.format(metragemRioDoSul6.getNivel() - metragemRioDoSul5.getNivel())));
         
         metragemRepository.saveAll(Arrays.asList(metragemRioDoSul1, 
@@ -83,12 +84,14 @@ public class TestConfig implements CommandLineRunner{
                                                  metragemRioDoSul5, 
                                                  metragemRioDoSul6));
    
-        for(int i = 1; i <= 10; i++){
-            System.out.println(metragemService.gravarNovaLeitura(cidadeService.findByCodIbge(4214805)));
-        }
+        
         
     }
 
+    @Scheduled(cron = "0/5 * * * * *")
+    public void gerarMetragem(){
+        System.out.println(metragemService.gravarNovaLeitura(cidadeService.findByCodIbge(4214805)));
+    }
 
 
 }
