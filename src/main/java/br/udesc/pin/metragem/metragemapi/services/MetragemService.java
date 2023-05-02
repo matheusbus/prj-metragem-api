@@ -58,11 +58,25 @@ public class MetragemService {
         }
     }
 
+    public List<Float> findLastFiveLevelsByCidadeIBGE(long codIbge){
+        Cidade cidade = cidadeService.findByCodIbge(codIbge);
+
+        if(cidade == null){
+            return null;
+        } else {
+            return metragemRepository.buscarNivelDasMetragensPorCidade(cidade)
+            .stream()
+            .limit(5)
+            .collect(Collectors.toList());
+        }
+    }
+
     //@Scheduled(cron = "0/10 * * * * * *")
     public Metragem gravarNovaLeitura(Cidade cidade){
         return this.save(GeradorMetragem.gerarNovaMetragem(cidade, 
                                                        this.findLastMetragemByCidadeIBGE(cidade.getCodIbge()),
-                                                       this.findLastFiveWeatherByCidadeIBGE(cidade.getCodIbge())));
+                                                       this.findLastFiveWeatherByCidadeIBGE(cidade.getCodIbge()),
+                                                       this.findLastFiveLevelsByCidadeIBGE(cidade.getCodIbge())));
     }
 
 }

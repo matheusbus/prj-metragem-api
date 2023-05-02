@@ -16,4 +16,7 @@ public interface MetragemRepository extends JpaRepository<Metragem, Long>{
     @Query(value = "select M.clima from Metragem as M where M.cidade = :cidade order by M.id DESC") // JPQL
     public List<Integer> buscarClimaDasMetragensPorCidade(Cidade cidade);
 
+    @Query(value = "select M.nivel from Metragem as M where M.cidade = :cidade order by M.id DESC") // JPQL
+    public List<Float> buscarNivelDasMetragensPorCidade(Cidade cidade);
+
 }

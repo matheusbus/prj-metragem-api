@@ -53,7 +53,7 @@ public class Metragem implements Serializable{
 
     }
 
-    public Metragem(LocalDate data, LocalTime hora, float nivel, float indicePluviometrico,
+    public Metragem(LocalDate data, LocalTime hora, float nivel, float diferenca, float indicePluviometrico,
             Clima clima, Cidade cidade) {
         this.data = data;
         this.hora = hora;
@@ -61,6 +61,7 @@ public class Metragem implements Serializable{
         this.indicePluviometrico = indicePluviometrico;
         this.clima = clima.getCodigo();
         this.cidade = cidade;
+        this.diferenca = diferenca;
     }
 
     public long getId(){
