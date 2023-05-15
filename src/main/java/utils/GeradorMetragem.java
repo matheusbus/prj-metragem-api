@@ -3,7 +3,9 @@ package utils;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.udesc.pin.metragem.metragemapi.model.Cidade;
 import br.udesc.pin.metragem.metragemapi.model.Metragem;
@@ -11,21 +13,23 @@ import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 
 public class GeradorMetragem {
    
-    public static Metragem gerarNovaMetragem(Cidade cidade, 
-                                              Metragem ultimaMetragemRegCidade, 
-                                              List<Integer> ultimosCincoClimas, 
-                                              List<Float> ultimosCincoNiveis){
+    public static Metragem gerarNovaMetragem(Cidade cidade, List<Metragem> metragensCidade){
 
-        Metragem ultimaMetragemCidade = ultimaMetragemRegCidade;
+        List<Metragem> ultimasCincoMetragens = metragensCidade.stream().limit(5).collect(Collectors.toList());
+
+        Metragem ultimaMetragemCidade = ultimasCincoMetragens.stream().findFirst().get();
+
         Clima novoClima = GeradorClimatico.gerarNovoClima(ultimaMetragemCidade.getClima());
-        float novoIndicePluviometrico = GeradorPluviometrico.aferirNovoIndice(ultimosCincoClimas);
-        float novoNivel = GeradorNivelamento.gerarNovoNivel(ultimosCincoNiveis, 
-                                                            ultimaMetragemCidade.getClima(), 
-                                                            novoClima, 
-                                                            ultimaMetragemCidade.getIndicePluviometrico(), 
-                                                            novoIndicePluviometrico);
 
-        float diferenca;                                                            
+        float novoIndicePluviometrico = getNovoIndicePluviometrico(ultimasCincoMetragens);
+        novoIndicePluviometrico = FormatUtils.formataValor(novoIndicePluviometrico, 2, 2, RoundingMode.HALF_UP);
+
+        float novoNivel = getNovoNivel(ultimaMetragemCidade, novoClima, novoIndicePluviometrico, ultimasCincoMetragens);
+        novoNivel = FormatUtils.formataValor(novoNivel, 2, 2, RoundingMode.HALF_UP);
+
+        float diferenca;
+
+        /*
         if(novoNivel > 0){
             diferenca = novoNivel - ultimaMetragemCidade.getNivel();
             novoNivel = ultimaMetragemCidade.getNivel() + novoNivel;
@@ -34,14 +38,36 @@ public class GeradorMetragem {
         } else {
             diferenca = novoNivel - ultimaMetragemCidade.getNivel();
             novoNivel = ultimaMetragemCidade.getNivel() + novoNivel;
-        }
+        } */
 
-        novoNivel = FormatUtils.formataValor(novoNivel, 2, 2, RoundingMode.HALF_UP);
 
-        Metragem novaMetragem = new Metragem(LocalDate.now(), LocalTime.now(), novoNivel, diferenca, novoIndicePluviometrico, novoClima, cidade);
 
+        Metragem novaMetragem = new Metragem(LocalDate.now(), LocalTime.now(), novoNivel, 0.0f, novoIndicePluviometrico, novoClima, cidade);
+        
         return novaMetragem;
 
+    }
+
+    private static float getNovoIndicePluviometrico(List<Metragem> ultimasCincoMetragens){
+        
+        List<Integer> ultimosCincoClimas = new ArrayList<>();
+
+        for (Metragem metragem : ultimasCincoMetragens) {
+            ultimosCincoClimas.add(metragem.getClima().getCodigo());
+        }
+
+        return GeradorPluviometrico.aferirNovoIndice(ultimosCincoClimas);
+    }
+
+    private static float getNovoNivel(Metragem ultimaMetragem, Clima novoClima, float novoIndicePluviometrico, List<Metragem> ultimasCincoMetragens){
+        
+        List<Float> ultimosCincoNiveis = new ArrayList<>();
+
+        for(Metragem metragem : ultimasCincoMetragens){
+            ultimosCincoNiveis.add(metragem.getNivel());
+        }
+
+        return GeradorNivelamento.gerarNovoNivel(ultimosCincoNiveis, ultimaMetragem.getClima(), novoClima, ultimaMetragem.getIndicePluviometrico(), novoIndicePluviometrico);
     }
 
 }

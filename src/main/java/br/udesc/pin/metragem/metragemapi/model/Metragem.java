@@ -124,7 +124,7 @@ public class Metragem implements Serializable{
 
     @Override
     public String toString() {
-        return "Metragem [codigo= "+ id + ", data=" + data + ", hora=" + hora + ", nivel=" + nivel + ", diferenca=" + diferenca
+        return "Metragem [codigo= "+ id + ", cidade=" + cidade.getNome() + ", data=" + data + ", hora=" + hora + ", nivel=" + nivel + ", diferenca=" + diferenca
                 + ", indicePluviometrico=" + indicePluviometrico + ", clima=" + Clima.valueOf(clima) + "]";
     }
 

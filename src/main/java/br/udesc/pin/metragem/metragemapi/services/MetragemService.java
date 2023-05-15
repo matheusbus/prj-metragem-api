@@ -39,12 +39,25 @@ public class MetragemService {
             return null;
         } else {
             return metragemRepository.buscarMetragensPorCidade(cidade)
-            .stream()
-            .findFirst()
-            .get();
+                    .stream()
+                    .findFirst()
+                    .get();
         }
     }
 
+    public List<Metragem> findLastFiveMetragemByCidade(long codIbge){
+        Cidade cidade = cidadeService.findByCodIbge(codIbge);
+
+        if(cidade == null){
+            return null;
+        } else {
+            return metragemRepository.buscarMetragensPorCidade(cidade)
+                    .stream()
+                    .limit(5)
+                    .collect(Collectors.toList());
+        }
+    }
+/*
     public List<Integer> findLastFiveWeatherByCidadeIBGE(long codIbge){
         Cidade cidade = cidadeService.findByCodIbge(codIbge);
 
@@ -70,13 +83,12 @@ public class MetragemService {
             .collect(Collectors.toList());
         }
     }
+*/
 
     //@Scheduled(cron = "0/10 * * * * * *")
     public Metragem gravarNovaLeitura(Cidade cidade){
-        return this.save(GeradorMetragem.gerarNovaMetragem(cidade, 
-                                                       this.findLastMetragemByCidadeIBGE(cidade.getCodIbge()),
-                                                       this.findLastFiveWeatherByCidadeIBGE(cidade.getCodIbge()),
-                                                       this.findLastFiveLevelsByCidadeIBGE(cidade.getCodIbge())));
+        return this.save(GeradorMetragem.gerarNovaMetragem(cidade, this.findLastFiveMetragemByCidade(cidade.getCodIbge())));
+        
     }
 
 }
