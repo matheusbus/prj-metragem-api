@@ -25,24 +25,11 @@ public class GeradorMetragem {
         novoIndicePluviometrico = FormatUtils.formataValor(novoIndicePluviometrico, 2, 2, RoundingMode.HALF_UP);
 
         float novoNivel = getNovoNivel(ultimaMetragemCidade, novoClima, novoIndicePluviometrico, ultimasCincoMetragens);
-        novoNivel = FormatUtils.formataValor(novoNivel, 2, 2, RoundingMode.HALF_UP);
 
-        float diferenca;
-
-        /*
-        if(novoNivel > 0){
-            diferenca = novoNivel - ultimaMetragemCidade.getNivel();
-            novoNivel = ultimaMetragemCidade.getNivel() + novoNivel;
-        } else if(novoNivel == 0){
-            diferenca = 0;
-        } else {
-            diferenca = novoNivel - ultimaMetragemCidade.getNivel();
-            novoNivel = ultimaMetragemCidade.getNivel() + novoNivel;
-        } */
+        float diferenca = FormatUtils.formataValor(getDiferenca(ultimaMetragemCidade.getNivel(), novoNivel), 2, 2, RoundingMode.HALF_UP);
 
 
-
-        Metragem novaMetragem = new Metragem(LocalDate.now(), LocalTime.now(), novoNivel, 0.0f, novoIndicePluviometrico, novoClima, cidade);
+        Metragem novaMetragem = new Metragem(LocalDate.now(), LocalTime.now(), novoNivel, diferenca, novoIndicePluviometrico, novoClima, cidade);
         
         return novaMetragem;
 
@@ -67,7 +54,16 @@ public class GeradorMetragem {
             ultimosCincoNiveis.add(metragem.getNivel());
         }
 
-        return GeradorNivelamento.gerarNovoNivel(ultimosCincoNiveis, ultimaMetragem.getClima(), novoClima, ultimaMetragem.getIndicePluviometrico(), novoIndicePluviometrico);
+        return GeradorNivelamento.gerarNovoNivel(ultimosCincoNiveis, ultimaMetragem.getClima(), novoClima, ultimaMetragem.getNivel(), ultimaMetragem.getIndicePluviometrico(), novoIndicePluviometrico);
+    }
+
+    private static float getDiferenca(float ultimoNivel, float novoNivel){
+        
+        if(novoNivel != ultimoNivel){
+            return (novoNivel - ultimoNivel);
+        } else {
+            return 0.00f;
+        }
     }
 
 }

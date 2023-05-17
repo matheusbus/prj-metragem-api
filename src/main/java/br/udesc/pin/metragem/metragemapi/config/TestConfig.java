@@ -79,7 +79,7 @@ public class TestConfig implements CommandLineRunner{
 
     }
 
-    @Scheduled(cron = "0/1 * * * * *")
+    @Scheduled(cron = "0/10 * * * * *")
     public void gerarMetragem(){
         System.out.println(metragemService.gravarNovaLeitura(cidadeService.findByCodIbge(4214805)));
     }
