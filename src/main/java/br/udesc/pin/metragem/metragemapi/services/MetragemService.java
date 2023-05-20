@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.udesc.pin.metragem.metragemapi.model.Cidade;
-import br.udesc.pin.metragem.metragemapi.model.Leitura;
-import br.udesc.pin.metragem.metragemapi.model.Metragem;
+import br.udesc.pin.metragem.metragemapi.generator.GeradorMetragem;
+import br.udesc.pin.metragem.metragemapi.models.Cidade;
+import br.udesc.pin.metragem.metragemapi.models.Leitura;
+import br.udesc.pin.metragem.metragemapi.models.Metragem;
 import br.udesc.pin.metragem.metragemapi.repositories.MetragemRepository;
-import utils.GeradorMetragem;
 
 @Service
 public class MetragemService {
@@ -73,10 +73,8 @@ public class MetragemService {
         }
     }
 
-    //@Scheduled(cron = "0/10 * * * * * *")
     public Metragem gravarNovaMetragem(Cidade cidade, Leitura leitura){
-        return this.save(GeradorMetragem.gerarNovaMetragem(cidade, this.findLastFiveMetragemByCidade(cidade.getCodIbge()), leitura));
-        
+        return this.save(GeradorMetragem.gerarNovaMetragem(cidade, this.findLastFiveMetragemByCidade(cidade.getCodIbge()), leitura));  
     }
 
 }

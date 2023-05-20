@@ -2,7 +2,7 @@ package br.udesc.pin.metragem.metragemapi.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.udesc.pin.metragem.metragemapi.model.Cidade;
+import br.udesc.pin.metragem.metragemapi.models.Cidade;
 
 public interface CidadeRepository extends JpaRepository<Cidade, Long>{
     

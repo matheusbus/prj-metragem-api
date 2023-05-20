@@ -1,5 +1,6 @@
 package br.udesc.pin.metragem.metragemapi.config;
 
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,13 +14,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import br.udesc.pin.metragem.metragemapi.model.Cidade;
-import br.udesc.pin.metragem.metragemapi.model.Leitura;
-import br.udesc.pin.metragem.metragemapi.model.Metragem;
-import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
+import br.udesc.pin.metragem.metragemapi.models.Cidade;
+import br.udesc.pin.metragem.metragemapi.models.Leitura;
+import br.udesc.pin.metragem.metragemapi.models.Metragem;
+import br.udesc.pin.metragem.metragemapi.models.enums.Clima;
 import br.udesc.pin.metragem.metragemapi.services.CidadeService;
 import br.udesc.pin.metragem.metragemapi.services.LeituraService;
 import br.udesc.pin.metragem.metragemapi.services.MetragemService;
+import utils.FormatUtils;
 
 @Configuration
 @Profile("test")
@@ -82,12 +84,21 @@ public class TestConfig implements CommandLineRunner{
         for(Leitura leitura : leituras){
             for(Cidade cidade : cidades){
 
+                float nivelCidade = r.nextFloat(1.00f, 10.00f);
+                float ultimoNivel = nivelCidade;
+
                 for(int i = 0; i < 5; i++){
     
                     int clima = r.nextInt(1, 4);
-                    float indicePluviometrico = r.nextFloat(0.00f, 3.00f);
+                    float indicePluviometrico = FormatUtils.formataValor(r.nextFloat(0.00f, 3.00f), 2, 2, RoundingMode.HALF_UP);
+                    float intervaloCima = nivelCidade + 0.50f;
+                    float invervaloBaixo = nivelCidade - 0.50f;
+
+                    nivelCidade = FormatUtils.formataValor(r.nextFloat(invervaloBaixo, intervaloCima), 2, 2, RoundingMode.HALF_UP);
+                    float diferenca = FormatUtils.formataValor((nivelCidade - ultimoNivel), 2, 2, RoundingMode.HALF_UP);
+                    ultimoNivel = nivelCidade;
     
-                    metragens.add(new Metragem(data,LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(i), i, i, indicePluviometrico, Clima.valueOf(clima), cidade, leitura));
+                    metragens.add(new Metragem(data,LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(i), nivelCidade, diferenca, indicePluviometrico, Clima.valueOf(clima), cidade, leitura));
                 }
             }
         }

@@ -1,4 +1,4 @@
-package utils;
+package br.udesc.pin.metragem.metragemapi.generator;
 
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.udesc.pin.metragem.metragemapi.model.Cidade;
-import br.udesc.pin.metragem.metragemapi.model.Leitura;
-import br.udesc.pin.metragem.metragemapi.model.Metragem;
-import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
+import br.udesc.pin.metragem.metragemapi.models.Cidade;
+import br.udesc.pin.metragem.metragemapi.models.Leitura;
+import br.udesc.pin.metragem.metragemapi.models.Metragem;
+import br.udesc.pin.metragem.metragemapi.models.enums.Clima;
+import utils.FormatUtils;
 
 public class GeradorMetragem {
    

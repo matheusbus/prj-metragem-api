@@ -1,4 +1,4 @@
-package br.udesc.pin.metragem.metragemapi.model.enums;
+package br.udesc.pin.metragem.metragemapi.models.enums;
 
 public enum Clima {
     

@@ -1,4 +1,4 @@
-package br.udesc.pin.metragem.metragemapi.model;
+package br.udesc.pin.metragem.metragemapi.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
+import br.udesc.pin.metragem.metragemapi.models.enums.Clima;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

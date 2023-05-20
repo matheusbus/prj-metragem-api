@@ -1,8 +1,8 @@
-package utils;
+package br.udesc.pin.metragem.metragemapi.generator;
 
 import java.util.Random;
 
-import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
+import br.udesc.pin.metragem.metragemapi.models.enums.Clima;
 
 public class GeradorClimatico {
     

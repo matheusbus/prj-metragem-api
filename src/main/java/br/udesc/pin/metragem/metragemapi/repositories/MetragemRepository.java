@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import br.udesc.pin.metragem.metragemapi.model.Cidade;
-import br.udesc.pin.metragem.metragemapi.model.Metragem;
+import br.udesc.pin.metragem.metragemapi.models.Cidade;
+import br.udesc.pin.metragem.metragemapi.models.Metragem;
 
 public interface MetragemRepository extends JpaRepository<Metragem, Long>{
     

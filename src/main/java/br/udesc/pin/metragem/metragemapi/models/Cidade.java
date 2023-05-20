@@ -1,4 +1,4 @@
-package br.udesc.pin.metragem.metragemapi.model;
+package br.udesc.pin.metragem.metragemapi.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;

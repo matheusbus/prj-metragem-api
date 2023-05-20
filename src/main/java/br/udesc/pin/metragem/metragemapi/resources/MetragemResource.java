@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.udesc.pin.metragem.metragemapi.model.Metragem;
+import br.udesc.pin.metragem.metragemapi.models.Metragem;
 import br.udesc.pin.metragem.metragemapi.services.MetragemService;
 
 @RestController

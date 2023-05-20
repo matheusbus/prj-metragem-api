@@ -1,9 +1,11 @@
-package utils;
+package br.udesc.pin.metragem.metragemapi.generator;
 
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.DoubleStream;
+
+import utils.FormatUtils;
 
 public class GeradorPluviometrico {
     

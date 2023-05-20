@@ -1,10 +1,11 @@
-package utils;
+package br.udesc.pin.metragem.metragemapi.generator;
 
 import java.math.RoundingMode;
 import java.util.List;
 
-import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
-import br.udesc.pin.metragem.metragemapi.model.enums.TendenciaNivel;
+import br.udesc.pin.metragem.metragemapi.models.enums.Clima;
+import br.udesc.pin.metragem.metragemapi.models.enums.TendenciaNivel;
+import utils.FormatUtils;
 
 public class GeradorNivelamento {
     
@@ -13,7 +14,6 @@ public class GeradorNivelamento {
         TendenciaNivel tendenciaByClima = analisaTendenciaClimas(ultimoClima, climaAtual);
         TendenciaNivel tendenciaByIndicePluviometrico = analisaTendenciaIndicesPluviometricos(ultimoIndicePluviometrico, indicePluviometricoAtual);
 
-        System.out.println("Tendencia Clima: " + tendenciaByClima.getValor() + " - Tendencia Ind.Pluvio.: " + tendenciaByIndicePluviometrico.getValor());
         float novaDiferencaByTendencia = tendenciaByClima.getValor() * tendenciaByIndicePluviometrico.getValor();
 
         float novoNivel = ultimoNivel + novaDiferencaByTendencia;
