@@ -30,4 +30,12 @@ public class CidadeService {
         return cidadeRepository.findByNomeAndUfAllIgnoringCase(nome, uf);
     }
 
+    public Cidade save(Cidade cidade){
+        return cidadeRepository.save(cidade);
+    }
+
+    public List<Cidade> saveAll(Iterable<Cidade> cidades){
+        return cidadeRepository.saveAll(cidades);
+    }    
+
 }

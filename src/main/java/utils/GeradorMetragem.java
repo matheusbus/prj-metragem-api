@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.udesc.pin.metragem.metragemapi.model.Cidade;
+import br.udesc.pin.metragem.metragemapi.model.Leitura;
 import br.udesc.pin.metragem.metragemapi.model.Metragem;
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 
 public class GeradorMetragem {
    
-    public static Metragem gerarNovaMetragem(Cidade cidade, List<Metragem> metragensCidade){
+    public static Metragem gerarNovaMetragem(Cidade cidade, List<Metragem> metragensCidade, Leitura leitura){
 
         List<Metragem> ultimasCincoMetragens = metragensCidade.stream().limit(5).collect(Collectors.toList());
 
@@ -29,7 +30,7 @@ public class GeradorMetragem {
         float diferenca = FormatUtils.formataValor(getDiferenca(ultimaMetragemCidade.getNivel(), novoNivel), 2, 2, RoundingMode.HALF_UP);
 
 
-        Metragem novaMetragem = new Metragem(LocalDate.now(), LocalTime.now(), novoNivel, diferenca, novoIndicePluviometrico, novoClima, cidade);
+        Metragem novaMetragem = new Metragem(LocalDate.now(), LocalTime.now(), novoNivel, diferenca, novoIndicePluviometrico, novoClima, cidade, leitura);
         
         return novaMetragem;
 

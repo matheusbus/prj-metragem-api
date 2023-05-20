@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.udesc.pin.metragem.metragemapi.model.Cidade;
+import br.udesc.pin.metragem.metragemapi.model.Leitura;
 import br.udesc.pin.metragem.metragemapi.model.Metragem;
 import br.udesc.pin.metragem.metragemapi.repositories.MetragemRepository;
 import utils.GeradorMetragem;
@@ -30,6 +31,20 @@ public class MetragemService {
 
     public Metragem save(Metragem metragem){
         return metragemRepository.save(metragem);
+    }
+
+    public List<Metragem> saveAll(Iterable<Metragem> metragens){
+        return metragemRepository.saveAll(metragens);
+    }
+
+    public List<Metragem> findByCidade(long codIbge){
+        Cidade cidade = cidadeService.findByCodIbge(codIbge);
+
+        if(cidade == null){
+            return null;
+        } else {
+            return metragemRepository.buscarMetragensPorCidade(cidade);
+        }
     }
 
     public Metragem findLastMetragemByCidadeIBGE(long codIbge){
@@ -57,37 +72,10 @@ public class MetragemService {
                     .collect(Collectors.toList());
         }
     }
-/*
-    public List<Integer> findLastFiveWeatherByCidadeIBGE(long codIbge){
-        Cidade cidade = cidadeService.findByCodIbge(codIbge);
-
-        if(cidade == null){
-            return null;
-        } else {
-            return metragemRepository.buscarClimaDasMetragensPorCidade(cidade)
-            .stream()
-            .limit(5)
-            .collect(Collectors.toList());
-        }
-    }
-
-    public List<Float> findLastFiveLevelsByCidadeIBGE(long codIbge){
-        Cidade cidade = cidadeService.findByCodIbge(codIbge);
-
-        if(cidade == null){
-            return null;
-        } else {
-            return metragemRepository.buscarNivelDasMetragensPorCidade(cidade)
-            .stream()
-            .limit(5)
-            .collect(Collectors.toList());
-        }
-    }
-*/
 
     //@Scheduled(cron = "0/10 * * * * * *")
-    public Metragem gravarNovaLeitura(Cidade cidade){
-        return this.save(GeradorMetragem.gerarNovaMetragem(cidade, this.findLastFiveMetragemByCidade(cidade.getCodIbge())));
+    public Metragem gravarNovaMetragem(Cidade cidade, Leitura leitura){
+        return this.save(GeradorMetragem.gerarNovaMetragem(cidade, this.findLastFiveMetragemByCidade(cidade.getCodIbge()), leitura));
         
     }
 

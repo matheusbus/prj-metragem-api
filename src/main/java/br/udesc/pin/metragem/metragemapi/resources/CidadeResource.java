@@ -30,12 +30,8 @@ public class CidadeResource {
     }
 
     @GetMapping("/ibge")
-    public ResponseEntity<Cidade> findByCodIbge(@RequestParam("value") long codIbge){
+    public ResponseEntity<Cidade> findByCodIbge(@RequestParam(name = "cod") long codIbge){
         return ResponseEntity.ok().body(service.findByCodIbge(codIbge));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<Cidade> findByNomeAndUf(@RequestParam("nome") String nome, @RequestParam("uf") String uf){
-        return ResponseEntity.ok().body(service.findByNomeAndUf(nome, uf));
-    }
 }

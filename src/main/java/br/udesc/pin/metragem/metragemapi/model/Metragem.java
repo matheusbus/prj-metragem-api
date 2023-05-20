@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.udesc.pin.metragem.metragemapi.model.enums.Clima;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,10 +30,12 @@ public class Metragem implements Serializable{
     private long id;
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "metdata")
     private LocalDate data;
 
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm:ss")
     @Column(name = "methora")
     private LocalTime hora;
 
@@ -47,14 +53,20 @@ public class Metragem implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "cidcodigo")
+    @JsonIgnoreProperties("metragens")
     private Cidade cidade;
+
+    @ManyToOne
+    @JoinColumn(name = "leicodigo")
+    @JsonIgnoreProperties("metragens")
+    private Leitura leitura;
 
     public Metragem(){
 
     }
 
     public Metragem(LocalDate data, LocalTime hora, float nivel, float diferenca, float indicePluviometrico,
-            Clima clima, Cidade cidade) {
+            Clima clima, Cidade cidade, Leitura leitura) {
         this.data = data;
         this.hora = hora;
         this.nivel = nivel;
@@ -62,6 +74,7 @@ public class Metragem implements Serializable{
         this.clima = clima.getCodigo();
         this.cidade = cidade;
         this.diferenca = diferenca;
+        this.leitura = leitura;
     }
 
     public long getId(){
@@ -120,6 +133,22 @@ public class Metragem implements Serializable{
         if(clima != null){
             this.clima = clima.getCodigo();
         }
+    }
+
+    public Cidade getCidade(){
+        return this.cidade;
+    }
+
+    public void setCidade(Cidade cidade){
+        this.cidade = cidade;
+    }
+
+    public Leitura getLeitura() {
+        return leitura;
+    }
+
+    public void setLeitura(Leitura leitura) {
+        this.leitura = leitura;
     }
 
     @Override

@@ -32,6 +32,7 @@ public class Cidade implements Serializable{
     @Column(name = "cidibge")
     private long codIbge;
 
+    
     @OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY)
     private java.util.List<Metragem> metragens = new ArrayList<>();
 
