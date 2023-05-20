@@ -49,6 +49,14 @@ public class LeituraService {
 
     }
 
+    public List<Leitura> findLastsLeiturasByValue(long qtd){
+
+        return leituraRepository.findAllDesc()
+                .stream()
+                .limit(qtd)
+                .toList();
+    }
+
     public Leitura findByIdentifier(String identifier){
         return leituraRepository.findByIdentifier(identifier);
     }

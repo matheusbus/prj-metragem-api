@@ -29,6 +29,11 @@ public class LeituraResource {
         return ResponseEntity.ok().body(leituraService.findLastLeitura());
     }
 
+    @GetMapping("/lastByValue")
+    public ResponseEntity<List<Leitura>> findLastByValue(@RequestParam("qtd") long qtd){
+        return ResponseEntity.ok().body(leituraService.findLastsLeiturasByValue(qtd));
+    }
+
     @GetMapping("/identifier")
     public ResponseEntity<Leitura> findByIdentifier(@RequestParam("value") String identifier){
         return ResponseEntity.ok().body(leituraService.findByIdentifier(identifier));
