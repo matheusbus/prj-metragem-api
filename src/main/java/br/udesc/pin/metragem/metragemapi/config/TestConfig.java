@@ -66,8 +66,8 @@ public class TestConfig implements CommandLineRunner{
 
         List<Leitura> leituras = new ArrayList<>();
 
-        for(int i = 0; i < 5; i++){
-            Leitura leitura = new Leitura(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).plusHours(i));
+        for(int i = 1; i <= 5; i++){
+            Leitura leitura = new Leitura(LocalDate.now(), LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))).minusHours(Math.abs(i-6)));
             leituraService.save(leitura).setLeiidentificador();
             leituras.add(leitura);
         }
