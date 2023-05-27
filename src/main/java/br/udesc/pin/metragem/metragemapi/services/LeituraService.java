@@ -61,7 +61,7 @@ public class LeituraService {
         return leituraRepository.findByIdentifier(identifier);
     }
 
-    //@Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "* * 0/1 * * *")
     public Leitura gravarNovaLeitura(){
 
         Leitura leitura = new Leitura(LocalDate.now(), LocalTime.now());
